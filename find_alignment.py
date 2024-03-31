@@ -64,22 +64,31 @@ df = sk.get(t0, t1, [
                     'LHC.BPTUH.A4R5.B2:CALIBRAWVALV2',
                     'LHC.BCTDC.A6R4.B1:BEAM_INTENSITY',
                     'LHC.BCTDC.A6R4.B2:BEAM_INTENSITY',
+                    'LHC.BCTDC.B6R4.B1:BEAM_INTENSITY',
+                    'LHC.BCTDC.B6R4.B2:BEAM_INTENSITY',
                      ])
 # iterpolate all the missing values in the dataframe
 # %%
 df = df.interpolate(method='time')
-df['DCT_B1_FIT'] = df['LHC.BCTDC.A6R4.B1:BEAM_INTENSITY'].rolling(window=5000).mean()
-df['DCT_B2_FIT'] = df['LHC.BCTDC.A6R4.B2:BEAM_INTENSITY'].rolling(window=5000).mean()
+df['DCT_B1_FIT'] = (df['LHC.BCTDC.A6R4.B1:BEAM_INTENSITY'].rolling(window=5000).mean()+
+                    df['LHC.BCTDC.B6R4.B1:BEAM_INTENSITY'].rolling(window=5000).mean())/2
+
+df['DCT_B2_FIT'] = (df['LHC.BCTDC.A6R4.B2:BEAM_INTENSITY'].rolling(window=5000).mean()+
+                    df['LHC.BCTDC.B6R4.B2:BEAM_INTENSITY'].rolling(window=5000).mean())/2
 
 # %%
 # check interpolation of DCT_B1_FIT
 plt.figure()
 plt.plot(df['LHC.BCTDC.A6R4.B1:BEAM_INTENSITY'], label='LHC.BCTDC.A6R4.B1:BEAM_INTENSITY')
+plt.plot(df['LHC.BCTDC.B6R4.B1:BEAM_INTENSITY'], label='LHC.BCTDC.B6R4.B1:BEAM_INTENSITY')
+
 plt.plot(df['DCT_B1_FIT'], label='DCT_B1_FIT')
 
 
 plt.figure()
 plt.plot(df['LHC.BCTDC.A6R4.B2:BEAM_INTENSITY'], label='LHC.BCTDC.A6R4.B1:BEAM_INTENSITY')
+plt.plot(df['LHC.BCTDC.B6R4.B2:BEAM_INTENSITY'], label='LHC.BCTDC.B6R4.B2:BEAM_INTENSITY')
+
 plt.plot(df['DCT_B2_FIT'], label='DCT_B2_FIT')
 
 # %%
@@ -186,7 +195,7 @@ plt.title(f'FILL9443, align from {initial_offset:3.2f} to {offset:3.2f} mm')
 plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 
 # %%
-t0_filtered="19:08"
+t0_filtered="19:03"
 t1_filtered="19:18"
 
 wire = 'L5'
