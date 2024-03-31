@@ -104,7 +104,7 @@ plt.twinx()
 plt.plot(df[f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k',alpha=0.1)
 plt.ylabel(f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY [p]')
 plt.plot(df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
-plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png')
+plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
           df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/
@@ -124,7 +124,7 @@ plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
 plt.title(f'Align from {initial_offset:3.2f} to {offset:3.2f} mm')
-plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png')
+plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 
 # %%
 t0_filtered="19:37"
@@ -155,7 +155,7 @@ plt.twinx()
 plt.plot(df[f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k',alpha=0.1)
 plt.ylabel(f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY [p]')
 plt.plot(df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
-plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png')
+plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
           df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/
@@ -175,7 +175,7 @@ plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
 plt.title(f'Align from {initial_offset:3.2f} to {offset:3.2f} mm')
-plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png')
+plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 
 # %%
 t0_filtered="19:08"
@@ -206,7 +206,7 @@ plt.twinx()
 plt.plot(df[f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k',alpha=0.1)
 plt.ylabel(f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY [p]')
 plt.plot(df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
-plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png')
+plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
           df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/
@@ -226,7 +226,7 @@ plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
 plt.title(f'Align from {initial_offset:3.2f} to {offset:3.2f} mm')
-plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png')
+plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
 t0_filtered="19:18"
 t1_filtered="19:27"
@@ -256,7 +256,7 @@ plt.twinx()
 plt.plot(df[f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k',alpha=0.1)
 plt.ylabel(f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY [p]')
 plt.plot(df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
-plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png')
+plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
           df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/
@@ -276,5 +276,5 @@ plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
 plt.title(f'Align from {initial_offset:3.2f} to {offset:3.2f} mm')
-plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png')
+plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
