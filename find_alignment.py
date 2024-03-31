@@ -62,6 +62,14 @@ df = sk.get(t0, t1, [
                     'LHC.BPTUH.A4L5.B1:CALIBRAWVALV2',
                     'LHC.BPTUH.A4R5.B2:CALIBRAWVALV1',
                     'LHC.BPTUH.A4R5.B2:CALIBRAWVALV2',
+                    'LHC.BPTDV.A4L1.B1:CALIBRAWVALV1',
+                    'LHC.BPTDV.A4L1.B1:CALIBRAWVALV2',
+                    'LHC.BPTDV.A4R1.B2:CALIBRAWVALV1',
+                    'LHC.BPTDV.A4R1.B2:CALIBRAWVALV2',
+                    'LHC.BPTDH.A4L5.B1:CALIBRAWVALV1',
+                    'LHC.BPTDH.A4L5.B1:CALIBRAWVALV2',
+                    'LHC.BPTDH.A4R5.B2:CALIBRAWVALV1',
+                    'LHC.BPTDH.A4R5.B2:CALIBRAWVALV2',
                     'LHC.BCTDC.A6R4.B1:BEAM_INTENSITY',
                     'LHC.BCTDC.A6R4.B2:BEAM_INTENSITY',
                     'LHC.BCTDC.B6R4.B1:BEAM_INTENSITY',
@@ -123,12 +131,26 @@ plt.ylabel(f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY [p]')
 plt.plot(df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
 plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
+aux = df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
-          df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/
-         df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
+          aux,'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
+
+aux = df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
-          df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/
-          df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
+          aux,'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
+
+aux = df[f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
+plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
+         aux, '.-', label=f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV1')
+
+aux = df[f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
+plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
+         aux, '.-', label=f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV1')
+
 plt.xticks(rotation=45)
 plt.grid()
 plt.ylabel('[arb. units]')
@@ -174,12 +196,26 @@ plt.ylabel(f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY [p]')
 plt.plot(df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
 plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
+aux = df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
-          df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/
-         df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
+          aux,'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
+
+aux = df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
-          df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/
-          df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
+          aux,'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
+
+aux = df[f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
+plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
+         aux, '.-', label=f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV1')
+
+aux = df[f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
+plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
+         aux, '.-', label=f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV1')
+
 plt.xticks(rotation=45)
 plt.grid()
 plt.ylabel('[arb. units]')
@@ -187,7 +223,7 @@ plt.xlabel(f'TCTP{my_plane}.4{my_string} [mm]')
 plt.legend()
 # plot vertical line at the 'LHC.BPTUV.A4L1.B1:CALIBRAWVALV1' maximum
 initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna()[0]
-offset = 0.5
+offset = 0.6
 plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
@@ -225,12 +261,26 @@ plt.ylabel(f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY [p]')
 plt.plot(df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
 plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
+aux = df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
-          df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/
-         df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
+          aux,'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
+
+aux = df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
-          df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/
-          df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
+          aux,'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
+
+aux = df[f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
+plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
+         aux, '.-', label=f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV1')
+
+aux = df[f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
+plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
+         aux, '.-', label=f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV1')
+
 plt.xticks(rotation=45)
 plt.grid()
 plt.ylabel('[arb. units]')
@@ -238,7 +288,7 @@ plt.xlabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 plt.legend()
 # plot vertical line at the 'LHC.BPTUV.A4L1.B1:CALIBRAWVALV1' maximum
 initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna()[0]
-offset = 1.15
+offset = 1.35
 plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
@@ -275,12 +325,26 @@ plt.ylabel(f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY [p]')
 plt.plot(df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
 plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
+aux = df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
-          df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/
-         df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
+          aux,'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
+
+aux = df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
-          df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/
-          df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)+.08e-12,'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
+          aux,'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
+
+aux = df[f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
+plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
+         aux, '.-', label=f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV1')
+
+aux = df[f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)
+aux = aux/aux.max()
+plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
+         aux, '.-', label=f'LHC.BPTD{my_plane}.A4{my_string}:CALIBRAWVALV1')
+
 plt.xticks(rotation=45)
 plt.grid()
 plt.ylabel('[arb. units]')
@@ -288,7 +352,7 @@ plt.xlabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 plt.legend()
 # plot vertical line at the 'LHC.BPTUV.A4L1.B1:CALIBRAWVALV1' maximum
 initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna()[0]
-offset = 0.25
+offset = 0.35
 plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
