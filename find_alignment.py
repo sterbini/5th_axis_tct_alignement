@@ -72,7 +72,15 @@ df['DCT_B1_FIT'] = df['LHC.BCTDC.A6R4.B1:BEAM_INTENSITY'].rolling(window=5000).m
 df['DCT_B2_FIT'] = df['LHC.BCTDC.A6R4.B2:BEAM_INTENSITY'].rolling(window=5000).mean()
 
 # %%
-# df.to_parquet('data/df.csv')
+# check interpolation of DCT_B1_FIT
+plt.figure()
+plt.plot(df['LHC.BCTDC.A6R4.B1:BEAM_INTENSITY'], label='LHC.BCTDC.A6R4.B1:BEAM_INTENSITY')
+plt.plot(df['DCT_B1_FIT'], label='DCT_B1_FIT')
+
+
+plt.figure()
+plt.plot(df['LHC.BCTDC.A6R4.B2:BEAM_INTENSITY'], label='LHC.BCTDC.A6R4.B1:BEAM_INTENSITY')
+plt.plot(df['DCT_B2_FIT'], label='DCT_B2_FIT')
 
 # %%
 from matplotlib import pyplot as plt
@@ -97,33 +105,33 @@ plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filt
 plt.axhline(y=initial_offset, color='r', linestyle='--')
 plt.xticks(rotation=45)
 plt.grid()
-plt.title(f'Initial offset {initial_offset:3.2f} mm')
+plt.title(f'FILL9443, initial offset {initial_offset:3.2f} mm')
 plt.ylabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 # plot on the secondary y-axis the LHC.BCTDC.A6R4.B1:BEAM_INTENSITY
 plt.twinx()
 plt.plot(df[f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k',alpha=0.1)
 plt.ylabel(f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY [p]')
-plt.plot(df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
+plt.plot(df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
 plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
           df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/
-         df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
+         df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
           df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/
-          df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
+          df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
 plt.xticks(rotation=45)
 plt.grid()
 plt.ylabel('[arb. units]')
-plt.xlabel('TCTPV.4L1.B1:MEAS_V_LVDT_POS [mm]')
+plt.xlabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 plt.legend()
 # plot vertical line at the 'LHC.BPTUV.A4L1.B1:CALIBRAWVALV1' maximum
 initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna()[0]
-offset = 0.5
+offset = 0.
 plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
-plt.title(f'Align from {initial_offset:3.2f} to {offset:3.2f} mm')
+plt.title(f'FILL9443, align from {initial_offset:3.2f} to {offset:3.2f} mm')
 plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 
 # %%
@@ -148,25 +156,25 @@ plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filt
 plt.axhline(y=initial_offset, color='r', linestyle='--')
 plt.xticks(rotation=45)
 plt.grid()
-plt.title(f'Initial offset {initial_offset:3.2f} mm')
+plt.title(f'FILL9443, initial offset {initial_offset:3.2f} mm')
 plt.ylabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 # plot on the secondary y-axis the LHC.BCTDC.A6R4.B1:BEAM_INTENSITY
 plt.twinx()
 plt.plot(df[f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k',alpha=0.1)
 plt.ylabel(f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY [p]')
-plt.plot(df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
+plt.plot(df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
 plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
           df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/
-         df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
+         df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
           df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/
-          df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
+          df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
 plt.xticks(rotation=45)
 plt.grid()
 plt.ylabel('[arb. units]')
-plt.xlabel('TCTPV.4L1.B1:MEAS_V_LVDT_POS [mm]')
+plt.xlabel(f'TCTP{my_plane}.4{my_string} [mm]')
 plt.legend()
 # plot vertical line at the 'LHC.BPTUV.A4L1.B1:CALIBRAWVALV1' maximum
 initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna()[0]
@@ -174,7 +182,7 @@ offset = 0.5
 plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
-plt.title(f'Align from {initial_offset:3.2f} to {offset:3.2f} mm')
+plt.title(f'FILL9443, align from {initial_offset:3.2f} to {offset:3.2f} mm')
 plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 
 # %%
@@ -199,25 +207,25 @@ plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filt
 plt.axhline(y=initial_offset, color='r', linestyle='--')
 plt.xticks(rotation=45)
 plt.grid()
-plt.title(f'Initial offset {initial_offset:3.2f} mm')
+plt.title(f'FILL9443, initial offset {initial_offset:3.2f} mm')
 plt.ylabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 # plot on the secondary y-axis the LHC.BCTDC.A6R4.B1:BEAM_INTENSITY
 plt.twinx()
 plt.plot(df[f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k',alpha=0.1)
 plt.ylabel(f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY [p]')
-plt.plot(df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
+plt.plot(df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
 plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
           df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/
-         df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
+         df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
           df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/
-          df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
+          df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
 plt.xticks(rotation=45)
 plt.grid()
 plt.ylabel('[arb. units]')
-plt.xlabel('TCTPV.4L1.B1:MEAS_V_LVDT_POS [mm]')
+plt.xlabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 plt.legend()
 # plot vertical line at the 'LHC.BPTUV.A4L1.B1:CALIBRAWVALV1' maximum
 initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna()[0]
@@ -225,7 +233,7 @@ offset = 1.15
 plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
-plt.title(f'Align from {initial_offset:3.2f} to {offset:3.2f} mm')
+plt.title(f'FILL9443, align from {initial_offset:3.2f} to {offset:3.2f} mm')
 plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
 t0_filtered="19:18"
@@ -249,32 +257,32 @@ plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filt
 plt.axhline(y=initial_offset, color='r', linestyle='--')
 plt.xticks(rotation=45)
 plt.grid()
-plt.title(f'Initial offset {initial_offset:3.2f} mm')
+plt.title(f'FILL9443, initial offset {initial_offset:3.2f} mm')
 plt.ylabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 # plot on the secondary y-axis the LHC.BCTDC.A6R4.B1:BEAM_INTENSITY
 plt.twinx()
 plt.plot(df[f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k',alpha=0.1)
 plt.ylabel(f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY [p]')
-plt.plot(df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
+plt.plot(df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered), label=f'LHC.BCTDC.A6R4.{my_beam}:BEAM_INTENSITY', color='k')
 plt.savefig(f'plots/scan_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
           df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1'].between_time(t0_filtered,t1_filtered)/
-         df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
+         df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV1')
 plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered),
           df[f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2'].between_time(t0_filtered,t1_filtered)/
-          df['DCT_B1_FIT'].between_time(t0_filtered,t1_filtered),'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
+          df[f'DCT_{my_beam}_FIT'].between_time(t0_filtered,t1_filtered)+.08e-12,'.-', label=f'LHC.BPTU{my_plane}.A4{my_string}:CALIBRAWVALV2')
 plt.xticks(rotation=45)
 plt.grid()
 plt.ylabel('[arb. units]')
-plt.xlabel('TCTPV.4L1.B1:MEAS_V_LVDT_POS [mm]')
+plt.xlabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 plt.legend()
 # plot vertical line at the 'LHC.BPTUV.A4L1.B1:CALIBRAWVALV1' maximum
 initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna()[0]
-offset = 0.50
+offset = 0.25
 plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
-plt.title(f'Align from {initial_offset:3.2f} to {offset:3.2f} mm')
+plt.title(f'FILL9443, align from {initial_offset:3.2f} to {offset:3.2f} mm')
 plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
