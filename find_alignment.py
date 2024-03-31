@@ -72,7 +72,7 @@ df['DCT_B1_FIT'] = df['LHC.BCTDC.A6R4.B1:BEAM_INTENSITY'].rolling(window=5000).m
 df['DCT_B2_FIT'] = df['LHC.BCTDC.A6R4.B2:BEAM_INTENSITY'].rolling(window=5000).mean()
 
 # %%
-df.to_parquet('data/df.csv')
+# df.to_parquet('data/df.csv')
 
 # %%
 from matplotlib import pyplot as plt
@@ -119,11 +119,11 @@ plt.xlabel('TCTPV.4L1.B1:MEAS_V_LVDT_POS [mm]')
 plt.legend()
 # plot vertical line at the 'LHC.BPTUV.A4L1.B1:CALIBRAWVALV1' maximum
 initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna()[0]
-offset = 0.
+offset = 0.5
 plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
-plt.title(f'Align from {initial_offset:3.2f} to {offset} mm')
+plt.title(f'Align from {initial_offset:3.2f} to {offset:3.2f} mm')
 plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png')
 
 # %%
@@ -170,11 +170,11 @@ plt.xlabel('TCTPV.4L1.B1:MEAS_V_LVDT_POS [mm]')
 plt.legend()
 # plot vertical line at the 'LHC.BPTUV.A4L1.B1:CALIBRAWVALV1' maximum
 initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna()[0]
-offset = 0.3
+offset = 0.5
 plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
-plt.title(f'Align from {initial_offset:3.2f} to {offset} mm')
+plt.title(f'Align from {initial_offset:3.2f} to {offset:3.2f} mm')
 plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png')
 
 # %%
@@ -221,17 +221,17 @@ plt.xlabel('TCTPV.4L1.B1:MEAS_V_LVDT_POS [mm]')
 plt.legend()
 # plot vertical line at the 'LHC.BPTUV.A4L1.B1:CALIBRAWVALV1' maximum
 initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna()[0]
-offset = 1.2
+offset = 1.15
 plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
-plt.title(f'Align from {initial_offset:3.2f} to {offset} mm')
+plt.title(f'Align from {initial_offset:3.2f} to {offset:3.2f} mm')
 plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png')
 # %%
-t0_filtered="19:27"
-t1_filtered="19:37"
+t0_filtered="19:18"
+t1_filtered="19:27"
 
-wire = 'L1'
+wire = 'R5'
 if 'L' in wire:
     my_string = wire + '.B1'
     my_beam = 'B1'
@@ -271,10 +271,10 @@ plt.xlabel('TCTPV.4L1.B1:MEAS_V_LVDT_POS [mm]')
 plt.legend()
 # plot vertical line at the 'LHC.BPTUV.A4L1.B1:CALIBRAWVALV1' maximum
 initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna()[0]
-offset = 0
+offset = 0.50
 plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
-plt.title(f'Align from {initial_offset:3.2f} to {offset} mm')
+plt.title(f'Align from {initial_offset:3.2f} to {offset:3.2f} mm')
 plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png')
 # %%
