@@ -46,8 +46,8 @@ logging.info('Spark instance created.')
 
 
 # %%
-t0 = pd.Timestamp('2024-03-30 19:50',tz="CET")
-t1 = pd.Timestamp('2024-03-30 21:00',tz="CET")
+t0 = pd.Timestamp('2025-04-30 03:40',tz="CET")
+t1 = pd.Timestamp('2025-04-30 03:54',tz="CET")
 
 df = sk.get(t0, t1, [
                     'TCTPH.4L5.B1:MEAS_V_LVDT_POS',
@@ -78,14 +78,17 @@ df = sk.get(t0, t1, [
 # iterpolate all the missing values in the dataframe
 # %%
 df = df.interpolate(method='time')
-df['DCT_B1_FIT'] = (df['LHC.BCTDC.A6R4.B1:BEAM_INTENSITY'].rolling(window=5000).mean()+
-                    df['LHC.BCTDC.B6R4.B1:BEAM_INTENSITY'].rolling(window=5000).mean())/2
+df['DCT_B1_FIT'] = (df['LHC.BCTDC.A6R4.B1:BEAM_INTENSITY'].rolling(window=100).mean()+
+                    df['LHC.BCTDC.B6R4.B1:BEAM_INTENSITY'].rolling(window=100).mean())/2
 
-df['DCT_B2_FIT'] = (df['LHC.BCTDC.A6R4.B2:BEAM_INTENSITY'].rolling(window=5000).mean()+
-                    df['LHC.BCTDC.B6R4.B2:BEAM_INTENSITY'].rolling(window=5000).mean())/2
+df['DCT_B2_FIT'] = (df['LHC.BCTDC.A6R4.B2:BEAM_INTENSITY'].rolling(window=100).mean()+
+                    df['LHC.BCTDC.B6R4.B2:BEAM_INTENSITY'].rolling(window=100).mean())/2
 
 # %%
 # check interpolation of DCT_B1_FIT
+from matplotlib import pyplot as plt
+import numpy as np
+
 plt.figure()
 plt.plot(df['LHC.BCTDC.A6R4.B1:BEAM_INTENSITY'], label='LHC.BCTDC.A6R4.B1:BEAM_INTENSITY')
 plt.plot(df['LHC.BCTDC.B6R4.B1:BEAM_INTENSITY'], label='LHC.BCTDC.B6R4.B1:BEAM_INTENSITY')
@@ -101,8 +104,11 @@ plt.plot(df['DCT_B2_FIT'], label='DCT_B2_FIT')
 
 # %%
 from matplotlib import pyplot as plt
-t0_filtered="19:28"
-t1_filtered="19:36"
+t0_filtered="01:44:30"
+t1_filtered="01:45:15"
+
+# t0_filtered="01:50:30"
+# t1_filtered="01:51:05"
 
 wire = 'L1'
 if 'L' in wire:
@@ -122,7 +128,7 @@ plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filt
 plt.axhline(y=initial_offset, color='r', linestyle='--')
 plt.xticks(rotation=45)
 plt.grid()
-plt.title(f'FILL9443, initial offset {initial_offset:3.2f} mm')
+plt.title(f'FILL10540, initial offset {initial_offset:3.2f} mm')
 plt.ylabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 # plot on the secondary y-axis the LHC.BCTDC.A6R4.B1:BEAM_INTENSITY
 plt.twinx()
@@ -157,17 +163,21 @@ plt.ylabel('[arb. units]')
 plt.xlabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 plt.legend()
 # plot vertical line at the 'LHC.BPTUV.A4L1.B1:CALIBRAWVALV1' maximum
-initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna()[0]
-offset = 0.
+initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna().mean()
+offset = initial_offset+1
 plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
-plt.title(f'FILL9443, align from {initial_offset:3.2f} to {offset:3.2f} mm')
+plt.title(f'FILL10540, align from {initial_offset:3.2f} to {offset:3.2f} mm')
 plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 
 # %%
-t0_filtered="19:37"
-t1_filtered="19:47"
+t0_filtered="01:45:00"
+t1_filtered="01:45:35"
+
+# t0_filtered="01:50:50"
+# t1_filtered="01:51:25"
+
 
 wire = 'R1'
 if 'L' in wire:
@@ -187,7 +197,7 @@ plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filt
 plt.axhline(y=initial_offset, color='r', linestyle='--')
 plt.xticks(rotation=45)
 plt.grid()
-plt.title(f'FILL9443, initial offset {initial_offset:3.2f} mm')
+plt.title(f'FILL10540, initial offset {initial_offset:3.2f} mm')
 plt.ylabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 # plot on the secondary y-axis the LHC.BCTDC.A6R4.B1:BEAM_INTENSITY
 plt.twinx()
@@ -222,17 +232,20 @@ plt.ylabel('[arb. units]')
 plt.xlabel(f'TCTP{my_plane}.4{my_string} [mm]')
 plt.legend()
 # plot vertical line at the 'LHC.BPTUV.A4L1.B1:CALIBRAWVALV1' maximum
-initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna()[0]
-offset = 0.6
+initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna().mean()
+offset = initial_offset+1
 plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
-plt.title(f'FILL9443, align from {initial_offset:3.2f} to {offset:3.2f} mm')
+plt.title(f'FILL10540, align from {initial_offset:3.2f} to {offset:3.2f} mm')
 plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 
 # %%
-t0_filtered="19:03"
-t1_filtered="19:18"
+t0_filtered="01:45:20"
+t1_filtered="01:45:55"
+
+# t0_filtered="01:51:00"
+# t1_filtered="01:52:00"
 
 wire = 'L5'
 if 'L' in wire:
@@ -252,7 +265,7 @@ plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filt
 plt.axhline(y=initial_offset, color='r', linestyle='--')
 plt.xticks(rotation=45)
 plt.grid()
-plt.title(f'FILL9443, initial offset {initial_offset:3.2f} mm')
+plt.title(f'FILL10540, initial offset {initial_offset:3.2f} mm')
 plt.ylabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 # plot on the secondary y-axis the LHC.BCTDC.A6R4.B1:BEAM_INTENSITY
 plt.twinx()
@@ -287,16 +300,19 @@ plt.ylabel('[arb. units]')
 plt.xlabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 plt.legend()
 # plot vertical line at the 'LHC.BPTUV.A4L1.B1:CALIBRAWVALV1' maximum
-initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna()[0]
-offset = 1.35
+initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna().mean()
+offset = initial_offset-1
 plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
-plt.title(f'FILL9443, align from {initial_offset:3.2f} to {offset:3.2f} mm')
+plt.title(f'FILL10540, align from {initial_offset:3.2f} to {offset:3.2f} mm')
 plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
-t0_filtered="19:18"
-t1_filtered="19:27"
+t0_filtered="01:45:35"
+t1_filtered="01:46:15"
+
+# t0_filtered="01:51:30"
+# t1_filtered="01:52:10"
 
 wire = 'R5'
 if 'L' in wire:
@@ -316,7 +332,7 @@ plt.plot(df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filt
 plt.axhline(y=initial_offset, color='r', linestyle='--')
 plt.xticks(rotation=45)
 plt.grid()
-plt.title(f'FILL9443, initial offset {initial_offset:3.2f} mm')
+plt.title(f'FILL10540, initial offset {initial_offset:3.2f} mm')
 plt.ylabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 # plot on the secondary y-axis the LHC.BCTDC.A6R4.B1:BEAM_INTENSITY
 plt.twinx()
@@ -351,11 +367,11 @@ plt.ylabel('[arb. units]')
 plt.xlabel(f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS [mm]')
 plt.legend()
 # plot vertical line at the 'LHC.BPTUV.A4L1.B1:CALIBRAWVALV1' maximum
-initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna()[0]
-offset = 0.35
+initial_offset = df[f'TCTP{my_plane}.4{my_string}:MEAS_V_LVDT_POS'].between_time(t0_filtered,t1_filtered).dropna().mean()
+offset = initial_offset -.25
 plt.axvline(x=initial_offset, color='r', linestyle='--')
 plt.axvline(x=offset, color='g', linestyle='--')
 
-plt.title(f'FILL9443, align from {initial_offset:3.2f} to {offset:3.2f} mm')
+plt.title(f'FILL10540, align from {initial_offset:3.2f} to {offset:3.2f} mm')
 plt.savefig(f'plots/result_TCTP{my_plane}.4{my_string}.png', bbox_inches='tight')
 # %%
